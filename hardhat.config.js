@@ -1,12 +1,9 @@
 require("@nomiclabs/hardhat-waffle");
+require("@nomiclabs/hardhat-web3");
 require('dotenv').config();
 
-task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
-  const accounts = await hre.ethers.getSigners();
-
-  for (const account of accounts) {
-    console.log(account.address);
-  }
+task("accounts", "Prints accounts", async (_, { web3 }) => {
+  console.log(await web3.eth.getAccounts());
 });
 
 module.exports = {
@@ -17,7 +14,8 @@ module.exports = {
       forking: {
         url: `https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_KEY}`,
         blockNumber: 14123753
-      }
+      },
+      chainId: 1
     }
   }
 };
